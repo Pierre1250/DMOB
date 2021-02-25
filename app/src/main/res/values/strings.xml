@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ProjetMobile</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="connecter">Connecter</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+
+
+</resources>
