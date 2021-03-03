@@ -1,9 +1,19 @@
 <resources>
-    <string name="app_name">ProjetMobile</string>
+    <string name="app_name">Partage ton produit</string>
     <string name="se_connecter">Se connecter</string>
     <string name="connecter">Connecter</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
+    <string name="la_liste_de_nos_produits">La liste de nos Produits</string>
+    <string name="logout">LOGOUT</string>
+    <string name="creer_un_compte">Creer un compte</string>
+    <string name="nom">Nom</string>
+    <string name="email2">Email</string>
+    <string name="password2">Password</string>
+    <string name="phone">confirmer le mdp</string>
+    <string name="creer">Creer</string>
+    <string name="message">J\'ai deja un compte ? Connecter ici</string>
+    <string name="message2">Je n\'ai pas de compte ? Creer ici</string>
 
 
 </resources>

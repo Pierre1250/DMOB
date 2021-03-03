@@ -4,23 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Ajouterproduit">
 
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/add" />
-
-    <TextView
-        android:id="@+id/tview"
+    <Button
+        android:id="@+id/deconnct"
         android:layout_width="@dimen/largeurTview"
         android:layout_height="@dimen/longueurTview"
-        android:fontFamily="@font/aclonica"
-        android:text="@string/la_liste_de_nos_produits"
-        android:textColor="@color/titre"
-        android:textSize="20sp"
+        android:text="@string/logout"
+        android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="logout"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
