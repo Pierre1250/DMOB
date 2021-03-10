@@ -11,11 +11,95 @@
         android:id="@+id/deconnct"
         android:layout_width="@dimen/largeurTview"
         android:layout_height="@dimen/longueurTview"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:onClick="logout"
         android:text="@string/logout"
         android:textSize="10sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="logout"/>
+        tools:ignore="SmallSp" />
+
+    <EditText
+        android:id="@+id/mail"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="@dimen/longueurTview"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deconnct"
+        app:layout_constraintVertical_bias="0.060000002"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/produit"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="@dimen/longueurTview"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="@string/nomPro"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mail"
+        app:layout_constraintVertical_bias="0.060000002"
+        tools:ignore="Autofill" />
+
+    <EditText
+        android:id="@+id/prix"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="@dimen/longueurTview"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="@string/prix"
+        android:inputType="number|textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/produit"
+        app:layout_constraintVertical_bias="0.060000002"
+        tools:ignore="Autofill" />
+
+    <Button
+        android:id="@+id/btnchoix"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="@dimen/hauteurbouton"
+        android:text="@string/choisir"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prix"
+        app:layout_constraintVertical_bias="0.060000002" />
+
+    <ImageView
+        android:id="@+id/imv"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnchoix"
+        app:layout_constraintVertical_bias="0.19999999"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnsave"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="@dimen/hauteurbouton"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imv" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

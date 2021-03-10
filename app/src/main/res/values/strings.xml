@@ -14,6 +14,11 @@
     <string name="creer">Creer</string>
     <string name="message">J\'ai deja un compte ? Connecter ici</string>
     <string name="message2">Je n\'ai pas de compte ? Creer ici</string>
+    <string name="nomPro">Nom du produit</string>
+    <string name="prix">Prix</string>
+    <string name="choisir">Choisir l\'image</string>
+    <string name="valider">Valider</string>
+    <string name="save">Enregistrer</string>
 
 
 </resources>
