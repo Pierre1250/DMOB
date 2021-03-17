@@ -1,27 +1,38 @@
 package com.example.projetmobile;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreerCompte extends AppCompatActivity {
-    EditText fullName,fullEmail,fullpassword, fullpwd2;
+    public static final String TAG = "TAG";
+    EditText fullName,fullEmail,fullpassword, fullnumber;
     Button fCreer;
     FirebaseAuth fauth;
     ProgressBar pgBar;
+    FirebaseFirestore fStore;
+    String userID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +42,11 @@ public class CreerCompte extends AppCompatActivity {
         fullName=findViewById(R.id.name);
         fullEmail=findViewById(R.id.mailN);
         fullpassword=findViewById(R.id.pwdN);
-        fullpwd2 =findViewById(R.id.phoneN);
+        fullnumber =findViewById(R.id.phoneN);
         fCreer=findViewById(R.id.btn2);
         pgBar=findViewById(R.id.proBar);
         fauth= FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         if (fauth.getCurrentUser()!=null){
             startActivity(new Intent(getApplicationContext(),Ajouterproduit.class));
@@ -44,9 +56,11 @@ public class CreerCompte extends AppCompatActivity {
         fCreer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailVal =fullEmail.getText().toString().trim();
+                final String emailVal =fullEmail.getText().toString().trim();
                 String pwdval = fullpassword.getText().toString().trim();
-                String pwdval2 = fullpwd2.getText().toString().trim();
+                final String phone = fullnumber.getText().toString().trim();
+                final String name = fullName.getText().toString().trim();
+
 
 
                 //Verification
@@ -55,28 +69,25 @@ public class CreerCompte extends AppCompatActivity {
                     fullEmail.setError("L'email est obligatoire");
                     return;
                 }
+
+                if (TextUtils.isEmpty(name)){
+                    fullName.setError("L'email est obligatoire");
+                    return;
+                }
                 if (TextUtils.isEmpty(pwdval)){
                     fullpassword.setError("le mot de passe est obligatoire ");
                     return;
                 }
 
-                if (TextUtils.isEmpty(pwdval2)){
-                    fullpwd2.setError("le mot de passe est obligatoire ");
+                if (TextUtils.isEmpty(phone)){
+                    fullnumber.setError("le mot de passe est obligatoire ");
                     return;
                 }
                 if (pwdval.length() < 6){
                     fullpassword.setError("Le mot de passe doit etre  >= 6 caractères");
                     return;
                 }
-                if (pwdval2.length() < 6){
-                    fullpwd2.setError("Le mot de passe doit etre  >= 6 caractères");
-                    return;
-                }
-                //Check pour voir si le mdp est le meme
-                /*if (pwdval2 != pwdval){
-                    fullpwd2.setError("Les mots de passe sont differents");
-                    return;
-                }*/
+
 
                 pgBar.setVisibility(View.VISIBLE);
                 //Creation du Users
@@ -86,6 +97,18 @@ public class CreerCompte extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(CreerCompte.this,"Votre compte a bien ete creé !",Toast.LENGTH_SHORT).show();
+                            userID = fauth.getCurrentUser().getUid();
+                            DocumentReference documentReference =fStore.collection("users").document(userID);
+                            Map<String,Object> user = new HashMap<>();
+                            user.put("userName",name);
+                            user.put("email", emailVal);
+                            user.put("phone",phone);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "onSuccess:Utilisateur créé "+userID);
+                                }
+                            });
                             startActivity(new Intent(getApplicationContext(),Ajouterproduit.class));
                         }else{
                             Toast.makeText(CreerCompte.this,"Erreur de creation !"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();

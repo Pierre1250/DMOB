@@ -10,7 +10,7 @@
     <string name="nom">Nom</string>
     <string name="email2">Email</string>
     <string name="password2">Password</string>
-    <string name="phone">confirmer le mdp</string>
+    <string name="phone">Numeros</string>
     <string name="creer">Creer</string>
     <string name="message">J\'ai deja un compte ? Connecter ici</string>
     <string name="message2">Je n\'ai pas de compte ? Creer ici</string>
@@ -19,6 +19,7 @@
     <string name="choisir">Choisir l\'image</string>
     <string name="valider">Valider</string>
     <string name="save">Enregistrer</string>
+    <string name="ajouter_un_produit">Ajouter un produit</string>
 
 
 </resources>

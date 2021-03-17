@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -19,15 +20,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Ajouterproduit extends AppCompatActivity {
+    public static final String TAG = "TAG";
     EditText fullEmail,nomPro, prixPro;
     Button cher,upload;
     StorageReference storageReference;
@@ -36,6 +41,10 @@ public class Ajouterproduit extends AppCompatActivity {
     int Image_Request_Code = 7;
     Uri FilePathUri;
     ImageView imgview;
+    public int  statut;
+    FirebaseFirestore fStore;
+    String userID;
+    FirebaseAuth fauth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +55,13 @@ public class Ajouterproduit extends AppCompatActivity {
         fullEmail=findViewById(R.id.mail);
         nomPro=findViewById(R.id.produit);
         prixPro=findViewById(R.id.prix);
-        imgview = (ImageView)findViewById(R.id.imv);
+        imgview = findViewById(R.id.imv);
 
         storageReference = FirebaseStorage.getInstance().getReference("Images");
-        databaseReference = FirebaseDatabase.getInstance().getReference("Images");
+
         progressDialog = new ProgressDialog(Ajouterproduit.this);// context name as per your project name
+        fStore = FirebaseFirestore.getInstance();
+        fauth= FirebaseAuth.getInstance();
 
         cher.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -103,29 +114,50 @@ public class Ajouterproduit extends AppCompatActivity {
 
 
     public void UploadImage(){
+
         if (FilePathUri != null){
             progressDialog.setTitle("Image is Uploading...");
             progressDialog.show();
             StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
 
             storageReference2.putFile(FilePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     String emailVal =fullEmail.getText().toString().trim();
                     String nomProduit =nomPro.getText().toString().trim();
+
+                    statut=0;
                     int prixproduit =Integer.parseInt(prixPro.getText().toString());
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Image Uploaded Successfully ", Toast.LENGTH_LONG).show();
+                    userID = fauth.getCurrentUser().getUid();
+                    DocumentReference documentReference =fStore.collection("Produits").document(userID);
+
+
+
                     @SuppressWarnings("VisibleForTests")
-                            produit produit1 = new produit(nomProduit,emailVal,prixproduit,taskSnapshot.getUploadSessionUri().toString());
-                    String ImageUpload = databaseReference.push().getKey();
-                    databaseReference.child(ImageUpload).setValue(produit1);
+
+                            Map<String,Object> produit1 = new HashMap<>();
+                    produit1.put("Nom produit",nomProduit);
+                    produit1.put("email",emailVal);
+                    produit1.put("Prix",prixproduit);
+                    produit1.put("Statut",statut);
+                    produit1.put("lien",taskSnapshot.getUploadSessionUri().toString());
+                    produit1.put("id user",userID);
+                    documentReference.set(produit1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "onSuccess:Produit ajouté "+userID);
+                        }
+                    });
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Image ajoutèe avec succes  ", Toast.LENGTH_LONG).show();
+
 
                 }
             });
         }
         else{
-            Toast.makeText(Ajouterproduit.this, "Please Select Image or Add Image Name", Toast.LENGTH_LONG).show();
+            Toast.makeText(Ajouterproduit.this, "Veuillez selectionner une image !", Toast.LENGTH_LONG).show();
         }
     }
 
