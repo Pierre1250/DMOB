@@ -126,4 +126,26 @@ public class CreerCompte extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(),Se_Connecter.class));
         finish();
     }
+/*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater =getMenuInflater();
+        inflater.inflate(R.menu.menu_option3,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.voir3:
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }*/
 }
