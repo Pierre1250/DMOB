@@ -3,4 +3,6 @@
     <dimen name="largeurTview">297dp</dimen>
     <dimen name="longueurTview">31dp</dimen>
     <dimen name="hauteurbouton">38dp</dimen>
+    <dimen name="lar">150dp</dimen>
+    <dimen name="haut">23dp</dimen>
 </resources>

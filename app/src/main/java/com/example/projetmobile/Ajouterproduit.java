@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -15,11 +18,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.projetmobile.firestorerecycleradapter.ProductsModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,15 +37,15 @@ import java.util.Map;
 
 public class Ajouterproduit extends AppCompatActivity {
     public static final String TAG = "TAG";
-    EditText fullEmail,nomPro, prixPro;
+    EditText nomPro, prixPro;
     Button cher,upload;
     StorageReference storageReference;
-    DatabaseReference databaseReference;
+    //DatabaseReference databaseReference;
     ProgressDialog progressDialog ;
     int Image_Request_Code = 7;
     Uri FilePathUri;
     ImageView imgview;
-    public int  statut;
+
     FirebaseFirestore fStore;
     String userID;
     FirebaseAuth fauth;
@@ -52,7 +56,7 @@ public class Ajouterproduit extends AppCompatActivity {
         setContentView(R.layout.activity_ajouterproduit);
         cher=findViewById(R.id.btnchoix);
         upload=findViewById(R.id.btnsave);
-        fullEmail=findViewById(R.id.mail);
+        //fullEmail=findViewById(R.id.mail);
         nomPro=findViewById(R.id.produit);
         prixPro=findViewById(R.id.prix);
         imgview = findViewById(R.id.imv);
@@ -120,37 +124,46 @@ public class Ajouterproduit extends AppCompatActivity {
             progressDialog.show();
             StorageReference storageReference2 = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
 
+
             storageReference2.putFile(FilePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String emailVal =fullEmail.getText().toString().trim();
+                    //String emailVal =fullEmail.getText().toString().trim();
                     String nomProduit =nomPro.getText().toString().trim();
 
-                    statut=0;
+                    //statut=0;
                     int prixproduit =Integer.parseInt(prixPro.getText().toString());
                     userID = fauth.getCurrentUser().getUid();
-                    DocumentReference documentReference =fStore.collection("Produits").document(userID);
+                    DocumentReference documentReference =fStore.collection("Produits").document(nomProduit);
 
 
 
                     @SuppressWarnings("VisibleForTests")
 
-                            Map<String,Object> produit1 = new HashMap<>();
-                    produit1.put("Nom produit",nomProduit);
-                    produit1.put("email",emailVal);
-                    produit1.put("Prix",prixproduit);
-                    produit1.put("Statut",statut);
-                    produit1.put("lien",taskSnapshot.getUploadSessionUri().toString());
-                    produit1.put("id user",userID);
-                    documentReference.set(produit1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    Map<String,Object> produit1 = new HashMap<>();
+                    produit1.put("nomPro",nomProduit);
+                    produit1.put("prix_pro",prixproduit);
+                    produit1.put("img_pro",System.currentTimeMillis()+"."+GetFileExtension(FilePathUri));
+                    produit1.put("lien_pro",taskSnapshot.getUploadSessionUri().toString());
+                    //produit1.put("id_user",userID);
+
+                    ProductsModel produit =new ProductsModel();
+                    produit.setImg_pro(System.currentTimeMillis()+"."+GetFileExtension(FilePathUri));
+                    produit.setPrix_pro(prixproduit);
+                    produit.setNomPro(nomProduit);
+                    produit.setLien_pro(taskSnapshot.getUploadSessionUri().toString());
+
+                    documentReference.set(produit).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "onSuccess:Produit ajouté "+userID);
                         }
                     });
                     progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Image ajoutèe avec succes  ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Produit ajoutèe avec succes  ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Ajouterproduit.this,"Connecté !",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
 
                 }
@@ -161,10 +174,47 @@ public class Ajouterproduit extends AppCompatActivity {
         }
     }
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        finish();
+//    public void logout(View view) {
+//        FirebaseAuth.getInstance().signOut();
+//        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//        finish();
+//
+//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater =getMenuInflater();
+        inflater.inflate(R.menu.menu_option2,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.voir2:
+
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+
+            case R.id.pan2:
+                startActivity(new Intent(getApplicationContext(),Mon_Panier.class));
+                finish();
+
+            case R.id.dec2:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
 
     }
 }
+
+//Dans ajouter produit , voir nos produit ne marche pas
+//Dans panier voir nos produit ne marche pas

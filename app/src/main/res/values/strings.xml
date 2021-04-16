@@ -20,6 +20,10 @@
     <string name="valider">Valider</string>
     <string name="save">Enregistrer</string>
     <string name="ajouter_un_produit">Ajouter un produit</string>
+    <string name="se_deconnecter">Se deconnecter</string>
+    <string name="voir_nos_produit">Voir nos produit</string>
+    <string name="voir_mon_panier">Voir mon panier</string>
+    <string name="commander">Commander</string>
 
 
 </resources>
