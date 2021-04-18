@@ -58,7 +58,7 @@ public class Se_Connecter extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             Toast.makeText(Se_Connecter.this,"Connecté !",Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),Ajouterproduit.class));
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         }else{
                             Toast.makeText(Se_Connecter.this,"Erreur de connection !"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }

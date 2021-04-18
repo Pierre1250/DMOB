@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/list_image_pro" />
 
     <TextView
-        android:id="@+id/list_img_pro"
+        android:id="@+id/type_pro_li"
         android:layout_width="@dimen/lar"
         android:layout_height="@dimen/haut"
         android:layout_marginStart="32dp"
@@ -61,7 +61,7 @@
         android:text="@string/commander"
         android:textColor="#673AB7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/list_img_pro"
+        app:layout_constraintStart_toEndOf="@+id/type_pro_li"
         app:layout_constraintTop_toBottomOf="@+id/list_nomPro"
         android:onClick="commander"/>
 

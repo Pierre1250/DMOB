@@ -6,11 +6,22 @@ public class ProductsModel  {
     private  String nomPro ;
     private  long prix_pro;
 
-    public ProductsModel(String img_pro, String lien_pro, String nomPro, long prix_pro) {
+    public String getType_pro() {
+        return type_pro;
+    }
+
+    public void setType_pro(String type_pro) {
+        this.type_pro = type_pro;
+    }
+
+    private String type_pro;
+
+    public ProductsModel(String img_pro, String lien_pro, String nomPro, long prix_pro, String type_pro) {
         this.img_pro = img_pro;
         this.lien_pro = lien_pro;
         this.nomPro = nomPro;
         this.prix_pro = prix_pro;
+        this.type_pro = type_pro;
     }
 
     public String getLien_pro() {

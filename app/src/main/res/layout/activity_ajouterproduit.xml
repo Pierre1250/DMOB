@@ -18,8 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.17000002"
+        app:layout_constraintTop_toBottomOf="@+id/type_pro"
+        app:layout_constraintVertical_bias="0.060000002"
         tools:ignore="Autofill" />
 
     <EditText
@@ -68,6 +68,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imv" />
+
+    <EditText
+        android:id="@+id/type_pro"
+        android:layout_width="@dimen/largeurTview"
+        android:layout_height="42dp"
+        android:layout_marginTop="128dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Type du produit"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

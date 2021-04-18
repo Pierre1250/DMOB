@@ -8,7 +8,7 @@
         android:title="@string/ajouter_un_produit"
         app:showAsAction="never" />
     <item
-        android:id="@+id/pan1"
-        android:title="@string/voir_mon_panier"
+        android:id="@+id/dec2"
+        android:title="@string/se_deconnecter"
         app:showAsAction="never" />
 </menu>

@@ -1,7 +1,9 @@
 package com.example.projetmobile;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -67,11 +70,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, final int position, @NonNull final ProductsModel model) {
+            protected void onBindViewHolder(@NonNull final ProductsViewHolder holder, final int position, @NonNull final ProductsModel model) {
                 holder.list_nomPro.setText("Nom :"+model.getNomPro());
-                holder.list_prix_pro.setText("Prix :"+model.getPrix_pro()+"");
-//                holder.list_img_pro.setText(model.getImg_pro());
+                holder.list_prix_pro.setText("Prix :"+model.getPrix_pro()+""+"CHF");
+                holder.list_type_pro.setText( model.getType_pro());
+                String image_load="https://firebasestorage.googleapis.com/v0/b/connection-93827.appspot.com/o/Images%2F"+ model.getImg_pro()+"?alt=media&token=96aea1ac-7300-433a-b99d-7d2b9ad4ca80";
+
+                System.out.println(image_load);
+                Picasso.get().load(model.getLien_pro()).into(holder.list_image_pro);
                 //Picasso.get().load(model.getLien_pro()).into(holder.list_image_pro);
+
+                //holder.list_image_pro.set
+                //holder.list_image_pro.setImageDrawable(Drawable.createFromPath("@drawable/preview"));
                 //Picasso.get().load(model.getLien_pro()).into(holder.list_image_pro);
 //                Glide.with(mFirestorelist)
 //                        .load(model.getLien_pro())
@@ -79,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Ajoute);
                 //holder.list_image_pro.setImageURI(Uri.parse("@drawable/
+
+                
 
                 // PANIER
                 holder.commander.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class ProductsViewHolder extends  RecyclerView.ViewHolder{
 
-        TextView list_nomPro,list_prix_pro,list_img_pro;
+        TextView list_nomPro,list_prix_pro,list_img_pro,list_type_pro;
         ImageView list_image_pro;
         Button commander;
 
@@ -135,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             super(itemView);
             list_nomPro=itemView.findViewById(R.id.list_nomPro);
             list_prix_pro=itemView.findViewById(R.id.list_prix_pro);
-            list_img_pro=itemView.findViewById(R.id.list_img_pro);
+            list_type_pro=itemView.findViewById(R.id.type_pro_li);
             list_image_pro=itemView.findViewById(R.id.list_image_pro);
             commander = itemView.findViewById(R.id.btnpan);
 
@@ -164,16 +176,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
+            case R.id.dec2:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent2 = new Intent(MainActivity.this, CreerCompte.class);
+                startActivity(intent2);
+
+
             case R.id.ajpro1:
-
-                startActivity(new Intent(getApplicationContext(),Ajouterproduit.class));
-                finish();
-
-            case R.id.pan1:
-
-
-                startActivity(new Intent(getApplicationContext(),Mon_Panier.class));
-                finish();
+                Intent intent = new Intent(MainActivity.this, Ajouterproduit.class);
+                startActivity(intent);
 
 
 

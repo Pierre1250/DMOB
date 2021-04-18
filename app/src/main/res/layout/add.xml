@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:backgroundTint="#A9DAF1"
-        app:srcCompat="@drawable/connect"
+        app:backgroundTint="#BFC2C5"
+        app:srcCompat="@drawable/panier_ic"
         tools:ignore="VectorDrawableCompat" />
 
 

@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class Ajouterproduit extends AppCompatActivity {
     public static final String TAG = "TAG";
-    EditText nomPro, prixPro;
+    EditText nomPro, prixPro,type;
     Button cher,upload;
     StorageReference storageReference;
     //DatabaseReference databaseReference;
@@ -60,6 +60,7 @@ public class Ajouterproduit extends AppCompatActivity {
         nomPro=findViewById(R.id.produit);
         prixPro=findViewById(R.id.prix);
         imgview = findViewById(R.id.imv);
+        type= findViewById(R.id.type_pro);
 
         storageReference = FirebaseStorage.getInstance().getReference("Images");
 
@@ -129,7 +130,7 @@ public class Ajouterproduit extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //String emailVal =fullEmail.getText().toString().trim();
+                    String type_pro =type.getText().toString().trim();
                     String nomProduit =nomPro.getText().toString().trim();
 
                     //statut=0;
@@ -148,10 +149,15 @@ public class Ajouterproduit extends AppCompatActivity {
                     produit1.put("lien_pro",taskSnapshot.getUploadSessionUri().toString());
                     //produit1.put("id_user",userID);
 
+                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
+                            .getTotalByteCount());
+                    System.out.println("Lalalaa"+progress);
+
                     ProductsModel produit =new ProductsModel();
                     produit.setImg_pro(System.currentTimeMillis()+"."+GetFileExtension(FilePathUri));
                     produit.setPrix_pro(prixproduit);
                     produit.setNomPro(nomProduit);
+                    produit.setType_pro(type_pro);
                     produit.setLien_pro(taskSnapshot.getUploadSessionUri().toString());
 
                     documentReference.set(produit).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -162,7 +168,7 @@ public class Ajouterproduit extends AppCompatActivity {
                     });
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), "Produit ajoutèe avec succes  ", Toast.LENGTH_LONG).show();
-                    Toast.makeText(Ajouterproduit.this,"Connecté !",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Ajouterproduit.this,"Connecté !",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
 
@@ -195,17 +201,9 @@ public class Ajouterproduit extends AppCompatActivity {
 
             case R.id.voir2:
 
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                finish();
+                Intent intent = new Intent(Ajouterproduit.this, MainActivity.class);
+                startActivity(intent);
 
-            case R.id.pan2:
-                startActivity(new Intent(getApplicationContext(),Mon_Panier.class));
-                finish();
-
-            case R.id.dec2:
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                finish();
 
             default:
 
