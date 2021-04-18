@@ -74,10 +74,12 @@ public class MainActivity extends AppCompatActivity {
                 holder.list_nomPro.setText("Nom :"+model.getNomPro());
                 holder.list_prix_pro.setText("Prix :"+model.getPrix_pro()+""+"CHF");
                 holder.list_type_pro.setText( model.getType_pro());
-                String image_load="https://firebasestorage.googleapis.com/v0/b/connection-93827.appspot.com/o/Images%2F"+ model.getImg_pro()+"?alt=media&token=96aea1ac-7300-433a-b99d-7d2b9ad4ca80";
+                String img=model.getLien_pro();
+                String rs=img.substring(89,106);
+                String image_load="https://firebasestorage.googleapis.com/v0/b/connection-93827.appspot.com/o/Images%2F"+ rs+"?alt=media&token=96aea1ac-7300-433a-b99d-7d2b9ad4ca80";
 
                 System.out.println(image_load);
-                Picasso.get().load(model.getLien_pro()).into(holder.list_image_pro);
+                Picasso.get().load(image_load).resize (2500, 2250).into(holder.list_image_pro);
                 //Picasso.get().load(model.getLien_pro()).into(holder.list_image_pro);
 
                 //holder.list_image_pro.set
